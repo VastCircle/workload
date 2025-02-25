@@ -19,6 +19,8 @@ CSRGraph* create_graph(int num_vertices, int *row_ptr, int *col_idx, int *edge_w
     return graph;
 }
 
+int a = 0;
+
 // BFS算法，不使用队列
 __attribute__ ((__used__)) static void bfs(CSRGraph *graph, int start_vertex) {
     bool *visited = (bool*) malloc(graph->num_vertices * sizeof(bool));
@@ -48,6 +50,7 @@ __attribute__ ((__used__)) static void bfs(CSRGraph *graph, int start_vertex) {
             if (!visited[neighbor]) {
                 visited[neighbor] = true;
                 queue[rear++] = neighbor;  // 将未访问的邻居加入队列
+                a++;
             }
 //             printf("-> Neighbor %d (Edge weight: %d) ", neighbor, edge_weight);  // 打印邻居节点和边权重
         }
@@ -78,6 +81,7 @@ int main(int argc, char* argv[]) {
     }
 
     free(graph);  // 释放内存
+    printf("a %d\r\n",a);
     printf("it is ok\r\n");
 
     return 0;
