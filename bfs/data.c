@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define MAX_VERTICES 512
-#define MIN_VERTICES 256
-#define MAX_EDGES (MAX_VERTICES * 10)  // 每个节点最多连接8个节点，最多生成的边数
+#define MAX_VERTICES 150
+#define MIN_VERTICES 50
+#define MAX_EDGES (MAX_VERTICES * 100)  // 每个节点最多连接8个节点，最多生成的边数
 #define MAX_WEIGHT 1000  // 边的权重最大值
 
 // 创建一个随机的图数据集
@@ -21,7 +21,7 @@ void generate_graph(int *row_ptr, int *col_idx, int *data, int *num_vertices, in
     // 确保每个节点最多有8个邻接节点
     for (int i = 0; i < *num_vertices; i++) {
         row_ptr[i] = edge_count;
-        int neighbors = rand() % 4 + 7; 
+        int neighbors = (rand() % 40 + 40); 
         for (int j = 0; j < neighbors && edge_count < *num_edges; j++) {
             int neighbor = rand() % *num_vertices;  // 随机选择邻接节点
             // 避免自环
@@ -50,25 +50,25 @@ void write_graph_to_file(const char *filename, int *row_ptr, int *col_idx, int *
     fprintf(file, "Number of edges: %d\n", num_edges);
 
     // 写入 row_ptr[]
-    fprintf(file, "row_ptr[] = {");
+    fprintf(file, "int row_ptr[] = {");
     for (int i = 0; i < num_vertices; i++) {
         fprintf(file, "%d, ", row_ptr[i]);
     }
-    fprintf(file, "%d}\n", row_ptr[num_vertices]);
+    fprintf(file, "%d};\n", row_ptr[num_vertices]);
 
     // 写入 col_idx[]
-    fprintf(file, "col_idx[] = {");
+    fprintf(file, "int col_idx[] = {");
     for (int i = 0; i < num_edges; i++) {
         fprintf(file, "%d, ", col_idx[i]);
     }
-    fprintf(file, "}\n");
+    fprintf(file, "};\n");
 
     // 写入 data[]
-    fprintf(file, "data[] = {");
+    fprintf(file, "int data[] = {");
     for (int i = 0; i < num_edges; i++) {
         fprintf(file, "%d, ", data[i]);
     }
-    fprintf(file, "}\n");
+    fprintf(file, "};\n");
 
     fclose(file);
     printf("Graph data has been written to %s\n", filename);
